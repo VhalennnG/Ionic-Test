@@ -6,20 +6,45 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
+  useIonToast,
 } from "@ionic/react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { registerUser } from "../firebaseConfig";
 
 const Tab4: React.FC = () => {
   const [Username, setUsername] = useState("");
   const [Password, setPassword] = useState("");
   const [cPassword, setcPassword] = useState("");
 
-  function register() {
-    var msg = "Register failed";
-    if (Password === cPassword) msg = "Register successful";
-    console.log(msg);
-    console.log(Username, Password, cPassword);
+  const [present] = useIonToast();
+
+  const toast = (message: string, color: string) => {
+    present({
+      message: message,
+      duration: 10000,
+      position: "top",
+      color: color,
+    });
+  };
+
+  async function register() {
+    if (Password !== cPassword) {
+      return toast("Password does not match", "danger");
+    }
+    if (Password === "" || Username === "") {
+      return toast("Username and Password are required", "danger");
+    }
+    if (Password.length < 6) {
+      return toast("Password at least 6 characters", "danger");
+    }
+
+    const res = await registerUser(Username, Password);
+    if (res) {
+      toast("Registered successfully", "success");
+    } else {
+      toast("Registered failed", "danger");
+    }
   }
 
   return (
@@ -35,10 +60,12 @@ const Tab4: React.FC = () => {
           onIonChange={(e: any) => setUsername(e.target.value)}
         ></IonInput>
         <IonInput
+          type="password"
           placeholder="Password"
           onIonChange={(e: any) => setPassword(e.target.value)}
         ></IonInput>
         <IonInput
+          type="password"
           placeholder="Confirm Password"
           onIonChange={(e: any) => setcPassword(e.target.value)}
         ></IonInput>

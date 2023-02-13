@@ -6,16 +6,34 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
+  useIonToast,
 } from "@ionic/react";
 import { useState } from "react";
+import { loginUser } from "../firebaseConfig";
 import "./Tab3.css";
 
 const Tab3: React.FC = () => {
   const [Username, setUsername] = useState("");
   const [Password, setPassword] = useState("");
 
-  function loginUser() {
-    console.log(Username, Password);
+  const [present] = useIonToast();
+
+  const toast = (message: string, color: string) => {
+    present({
+      message: message,
+      duration: 10000,
+      position: "top",
+      color: color,
+    });
+  };
+
+  async function login() {
+    const res = await loginUser(Username, Password);
+    if (!res) {
+      toast("Failed to login", "danger");
+    } else {
+      toast("Successfully logged in", "success");
+    }
   }
 
   return (
@@ -31,10 +49,11 @@ const Tab3: React.FC = () => {
           onIonChange={(e: any) => setUsername(e.target.value)}
         ></IonInput>
         <IonInput
+          type="password"
           placeholder="Password"
           onIonChange={(e: any) => setPassword(e.target.value)}
         ></IonInput>
-        <IonButton onClick={loginUser}>Login</IonButton>
+        <IonButton onClick={login}>Login</IonButton>
       </IonContent>
     </IonPage>
   );
