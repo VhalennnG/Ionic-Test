@@ -24,8 +24,9 @@ const Tab2: React.FC = () => {
           <IonTitle>Tab 2</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen className="ion-padding">
+      <IonContent fullscreen className="ion-padding" color="success">
         <IonInput
+          placeholder="Name"
           color="light"
           value={Input}
           onChange={(e: any) => setInput(e.target.value)}

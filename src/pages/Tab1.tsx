@@ -13,6 +13,7 @@ import {
   IonItemOption,
   IonButton,
   IonIcon,
+  IonImg,
 } from "@ionic/react";
 import { trash } from "ionicons/icons";
 
@@ -21,16 +22,16 @@ import "./Tab1.css";
 
 const arr = [
   {
-    name: "Finn",
-    desc: "Guild Master",
+    name: "Floryn",
+    desc: "The Budding Hope",
   },
   {
-    name: "Han",
-    desc: "Strong Magical Dog",
+    name: "Angela",
+    desc: "An android with a heart full of love",
   },
   {
-    name: "Rey",
-    desc: "Lady crane...",
+    name: "Rafaela",
+    desc: "The angel who heals everything",
   },
 ];
 
@@ -48,10 +49,8 @@ const Tab1: React.FC = () => {
             <IonItemSliding key={item.name}>
               <IonItem>
                 <IonAvatar>
-                  <img
-                    src={`https://ionicframework.com/docs/demos/api/list/avatar-${item.name.toLowerCase()}.png`}
-                    alt=""
-                  />
+                  <IonImg src={`assets/images/${item.name}.jpg`}></IonImg>
+                  {/* <img src={`images/${item.name.toLowerCase()}.png`} alt="" /> */}
                 </IonAvatar>
 
                 <IonLabel className="ion-margin">
